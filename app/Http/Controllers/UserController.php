@@ -50,7 +50,7 @@ class UserController extends Controller
 
         $token = $user->createToken('api_token')->plainTextToken;
 
-        dd(auth()->user());
+        // dd(auth()->user());
 
         return response()->json([
             'token' => $token,
@@ -73,6 +73,11 @@ class UserController extends Controller
 
     public function sendEmail()
     {
-        Mail::to('marya@gmail.com')->send(new Email());
+        $user = auth()->user();
+        Mail::to($user->email)->send(new Email());
+        return response()->json([
+            'message' => 'email sent successfully',
+            'status' => 'success'
+        ] , 200);
     }
 }
