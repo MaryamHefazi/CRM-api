@@ -10,8 +10,8 @@ class Facture extends Model
 {
     use HasFactory , SoftDeletes;
 
-    public function customers()
+    public function users()
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(User::class);
     }
 }

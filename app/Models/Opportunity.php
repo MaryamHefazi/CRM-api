@@ -12,12 +12,12 @@ class Opportunity extends Model
 
     protected $fillable = 
     [
-        'customer_id' , 'product_id' , 'number' , 'color' , 'price' , 'total_price' , 'description' , 'status'
+        'user_id' , 'product_id' , 'number' , 'color' , 'price' , 'total_price' , 'description' , 'status'
     ];
 
-    public function customers()
+    public function users()
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(User::class);
     }
 
     public function products()

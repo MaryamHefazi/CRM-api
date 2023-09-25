@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class OpportunityController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except([]);
+    }
+
     
     public function index()
     {
@@ -23,7 +29,7 @@ class OpportunityController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'customer_id' => 'required',
+            'user_id' => 'required',
             'products' => 'required',
             'number' => 'required|numeric',
             'color' => 'required',
@@ -75,7 +81,7 @@ class OpportunityController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'customer_id' => 'sometimes',
+            'user_id' => 'sometimes',
             'products' => 'sometimes',
             'number' => 'sometimes|numeric',
             'color' => 'sometimes',

@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['index', 'show']);
+    }
+
     
     public function index()
     {
@@ -98,7 +104,7 @@ class ProductController extends Controller
             {
                $categorySync[] = $category;
             }
-            $porduct->categoeires()->attach($categorySync);
+            $porduct->categories()->attach($categorySync);
         }
         
         return response()->json([

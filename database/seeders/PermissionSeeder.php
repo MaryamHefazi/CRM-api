@@ -13,11 +13,11 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        Permission::create(['name' => 'customer.all']);
-        Permission::create(['name' => 'customer.show']);
-        Permission::create(['name' => 'customer.store']);
-        Permission::create(['name' => 'customer.update']);
-        Permission::create(['name' => 'customer.delete']);
+        Permission::create(['name' => 'user.all']);
+        Permission::create(['name' => 'user.show']);
+        Permission::create(['name' => 'user.store']);
+        Permission::create(['name' => 'user.update']);
+        Permission::create(['name' => 'user.delete']);
         Permission::create(['name' => 'product.all']);
         Permission::create(['name' => 'product.show']);
         Permission::create(['name' => 'product.store']);
@@ -38,11 +38,6 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'opportunity.store']);
         Permission::create(['name' => 'opportunity.update']);
         Permission::create(['name' => 'opportunity.delete']);
-        Permission::create(['name' => 'Admin.super']);
-        Permission::create(['name' => 'Admin.product']);
-        Permission::create(['name' => 'Admin.order']);
-        Permission::create(['name' => 'Admin.facture']);
-        Permission::create(['name' => 'Admin.opportunity']);
 
     }
 }

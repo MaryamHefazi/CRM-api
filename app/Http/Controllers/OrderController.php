@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except([]);
+    }
+
     
     public function index()
     {
@@ -22,7 +28,7 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-           'customer_id' => 'required',
+           'user_id' => 'required',
            'products'=>'required',
            'description' => 'sometimes',
         ]);
@@ -70,7 +76,7 @@ class OrderController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'customer_id' => 'sometimes',
+            'user_id' => 'sometimes',
             'products'=>'sometimes',
             'description' => 'sometimes',
          ]);
