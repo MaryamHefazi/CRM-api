@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
 
 class OrderController extends Controller
 {
@@ -16,7 +17,16 @@ class OrderController extends Controller
     
     public function index()
     {
-        $orders = Order::all();
+       $user = auth()->user()->permissions;
+       dd($user);
+
+        if (auth()->user()->hasPermissionTo('orers.all')){
+        $orders = Order::all(); }
+
+        if (auth()->user()->hasPermissionTo('orers.user')){
+        $orders = auth()->user()->orders; }
+
+
         return response()->json([
             'orders' => $orders,
             'status' => 'success'
@@ -28,12 +38,14 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-           'user_id' => 'required',
            'products'=>'required',
            'description' => 'sometimes',
         ]);
 
-        $order = Order::create($request->toArray());
+        $order = Order::create([
+            'user_id'=>$request->user()->id,
+            'description' => $request->description
+        ]);
 
         $products = $request->products;
 
@@ -81,7 +93,7 @@ class OrderController extends Controller
             'description' => 'sometimes',
          ]);
 
-         $order =  Order::find($id);
+         $order = Order::find($id);
 
          if (!$order) {
             return response()->json([

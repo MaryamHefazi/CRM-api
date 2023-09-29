@@ -20,6 +20,9 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    protected $guard_name = 'api';
+
     protected $fillable = [
         'name',
         'email',
@@ -45,4 +48,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function opportunities()
+    {
+        return $this->hasMany(Opportunity::class);
+    }
 }

@@ -102,10 +102,9 @@ class RoleController extends Controller
     }
 
     
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        $role = Role::findById($id);
-
+        $role = Role::find($id);
         if (!$role){
             return Response()->json([
                 'message' => 'role not found',

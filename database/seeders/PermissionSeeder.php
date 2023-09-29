@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Faker\Provider\ar_EG\Person;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 
@@ -13,31 +14,55 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        Permission::create(['name' => 'user.all']);
-        Permission::create(['name' => 'user.show']);
-        Permission::create(['name' => 'user.store']);
-        Permission::create(['name' => 'user.update']);
-        Permission::create(['name' => 'user.delete']);
-        Permission::create(['name' => 'product.all']);
-        Permission::create(['name' => 'product.show']);
-        Permission::create(['name' => 'product.store']);
-        Permission::create(['name' => 'product.update']);
-        Permission::create(['name' => 'product.delete']);
-        Permission::create(['name' => 'order.all']);
-        Permission::create(['name' => 'order.show']);
-        Permission::create(['name' => 'order.store']);
-        Permission::create(['name' => 'order.update']);
-        Permission::create(['name' => 'order.delete']);
-        Permission::create(['name' => 'facture.all']);
-        Permission::create(['name' => 'facture.show']);
-        Permission::create(['name' => 'facture.store']);
-        Permission::create(['name' => 'facture.update']);
-        Permission::create(['name' => 'facture.delete']);
-        Permission::create(['name' => 'opportunity.all']);
-        Permission::create(['name' => 'opportunity.show']);
-        Permission::create(['name' => 'opportunity.store']);
-        Permission::create(['name' => 'opportunity.update']);
-        Permission::create(['name' => 'opportunity.delete']);
+
+        Permission::create(['name'=>'users.*']);
+        Permission::create(['name'=>'products.*']);
+        Permission::create(['name'=>'order.*']);
+        Permission::create(['name'=>'factures.*']);
+        Permission::create(['name'=>'opportunities.*']);
+        Permission::create(['name'=>'categories.*']);
+        Permission::create(['name' => 'role.*']);
+
+
+        Permission::create(['name' => 'users.all']);
+        Permission::create(['name' => 'users.user']);
+        Permission::create(['name' => 'users.show']);
+        Permission::create(['name' => 'users.store']);
+        Permission::create(['name' => 'users.update']);
+        Permission::create(['name' => 'users.delete']);
+        Permission::create(['name' => 'products.all']);
+        Permission::create(['name' => 'products.show']);
+        Permission::create(['name' => 'products.store']);
+        Permission::create(['name' => 'products.update']);
+        Permission::create(['name' => 'products.delete']);
+        Permission::create(['name' => 'orders.all']);
+        Permission::create(['name' => 'orders.user']);
+        Permission::create(['name' => 'orders.show']);
+        Permission::create(['name' => 'orders.store']);
+        Permission::create(['name' => 'orders.update']);
+        Permission::create(['name' => 'orders.delete']);
+        Permission::create(['name' => 'factures.all']);
+        Permission::create(['name' => 'factures.user']);
+        Permission::create(['name' => 'factures.show']);
+        Permission::create(['name' => 'factures.store']);
+        Permission::create(['name' => 'factures.update']);
+        Permission::create(['name' => 'factures.delete']);
+        Permission::create(['name' => 'opportunities.all']);
+        Permission::create(['name' => 'opportunities.user']);
+        Permission::create(['name' => 'opportunities.show']);
+        Permission::create(['name' => 'opportunities.store']);
+        Permission::create(['name' => 'opportunities.update']);
+        Permission::create(['name' => 'opportunities.delete']);
+        Permission::create(['name' => 'categories.all']);
+        Permission::create(['name' => 'categories.show']);
+        Permission::create(['name' => 'categories.store']);
+        Permission::create(['name' => 'categories.update']);
+        Permission::create(['name' => 'categories.delete']);
+        Permission::create(['name' => 'role.all']);
+        Permission::create(['name' => 'role.store']);
+        Permission::create(['name' => 'role.show']);
+        Permission::create(['name' => 'role.update']);
+        Permission::create(['name' => 'role.delete']);
 
     }
 }

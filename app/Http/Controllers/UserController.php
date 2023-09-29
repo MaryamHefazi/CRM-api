@@ -8,13 +8,14 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except([]);
+        $this->middleware('auth:sanctum')->except(['register' , 'login']);
     }
 
 
@@ -60,8 +61,6 @@ class UserController extends Controller
 
         $token = $user->createToken('api_token')->plainTextToken;
 
-        // dd(auth()->user());
-
         return response()->json([
             'token' => $token,
             'status' => 'success'
@@ -97,24 +96,21 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'firstName'=>'required|max:50',
-            'middleName'=>'sometimes|max:50',
-            'lastName'=>'required|max:50',
-            'email'=>'required',
-            'birthDate'=>'required',
-            'nationalCode'=>'required',
-            'gender'=>'sometimes',
-            'phoneNumber'=>'required',
-            'country'=>'required',
-            'city'=>'required',
-            'address'=>'required',
-            'education'=>'sometimes',
-            'job'=>'sometimes',
-            'password'=>'required',
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'role_id' => 'required',
 
         ]);
 
-        $user = User::create($request->toArray());
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password
+        ]);
+        
+        $user->assignRole($request->role_id);
+
         return response()->json([
            'user' => $user,
            'status' => 'Created Successfully'
@@ -123,9 +119,9 @@ class UserController extends Controller
 
 
 
-    public function show(string $id)
+    public function show()
     {
-        $user = User::find($id);
+        $user = auth()->user();
 
         if (!$user) {
              return response()->json([
@@ -145,19 +141,8 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'firstName'=>'sometimes|max:50',
-            'middleName'=>'sometimes|max:50',
-            'lastName'=>'sometimes|max:50',
-            'email'=>'sometimes',
-            'birthDate'=>'sometimes',
-            'nationalCode'=>'sometimes',
-            'gender'=>'sometimes',
-            'phoneNumber'=>'sometimes',
-            'country'=>'sometimes',
-            'city'=>'sometimes',
-            'address'=>'sometimes',
-            'education'=>'sometimes',
-            'job'=>'sometimes',
+            'name'=>'sometimes|max:50',
+            'email'=>'sometimes|email',
         ]);
 
         $user = User::find($id);

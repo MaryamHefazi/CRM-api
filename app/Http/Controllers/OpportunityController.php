@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Opportunity;
+use App\Models\Order;
 use Illuminate\Http\Request;
-
+use League\CommonMark\Node\Query\OrExpr;
 
 class OpportunityController extends Controller
 {
@@ -29,7 +30,6 @@ class OpportunityController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'user_id' => 'required',
             'products' => 'required',
             'number' => 'required|numeric',
             'color' => 'required',
@@ -37,8 +37,16 @@ class OpportunityController extends Controller
             'total_price' => 'required|numeric',
             'status' => 'required'
         ]);
-
-        $opportunity = Opportunity::create($request->toArray());
+        
+        $opportunity = Opportunity::create([
+        
+            'user_id' => $request->user()->id ,
+            'number' => $request->number ,
+            'color' => $request->color ,
+            'price' => $request->price ,
+            'total_price' => $request->total_price ,
+            'status' => $request->status ,
+        ]);
 
         $products = $request->products;
 
