@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreProductRequest extends FormRequest
 {
@@ -24,6 +26,11 @@ class StoreProductRequest extends FormRequest
         return [
             'productName'=>'required',
             'categories'=>'required',
+            'categories.*' => Rule::forEach(function(string|null $value,string $art){
+                return[
+                    Rule::exists(Category::class,'id')->whereNull('deleted_at')
+                ];
+            }),
             'number'=>'required|numeric',
             'price'=>'required|numeric',
             'color'=>'required',

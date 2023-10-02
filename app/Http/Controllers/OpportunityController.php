@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreOpportunityRequest;
 use App\Http\Requests\UpdateOpportunityRequest;
 use App\Models\Opportunity;
-use Illuminate\Contracts\Cache\Store;
-use Illuminate\Http\Request;
 
 class OpportunityController extends Controller
 {
@@ -19,7 +17,14 @@ class OpportunityController extends Controller
     
     public function index()
     {
-        $opportunities = Opportunity::all();
+        $user = auth()->user();
+
+        if ($user->hasPermissionTo('oppertiunities.all')){
+        $opportunities = Opportunity::all(); }
+
+        elseif ($user->hasPermissionTo('oppertiunities.all.user')){
+        $opportunities = auth()->user()->Opportunities; }
+
         return response()->json([
             'opportunities' => $opportunities ,
             'status' => 'success'

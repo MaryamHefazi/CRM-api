@@ -6,6 +6,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Jobs\SendEmailJob;
 use App\Mail\Email;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -56,7 +57,8 @@ class UserController extends Controller
 
         return response()->json([
             'token' => $token,
-            'status' => 'success'
+            'status' => 'success',
+            'permissions' => $user->getAllPermissions()->pluck('name'),
         ] , 200);
     }
 
@@ -165,8 +167,7 @@ class UserController extends Controller
 
     public function sendEmail()
     {
-        $user = auth()->user();
-        Mail::to($user->email)->send(new Email());
+        SendEmailJob::dispatch();
         return response()->json([
             'message' => 'email sent successfully',
             'status' => 'success'

@@ -25,7 +25,7 @@ class PermissionSeeder extends Seeder
 
 
         Permission::create(['name' => 'users.all']);
-        Permission::create(['name' => 'users.user']);
+        Permission::create(['name' => 'users.all.user']);
         Permission::create(['name' => 'users.show']);
         Permission::create(['name' => 'users.store']);
         Permission::create(['name' => 'users.update']);
@@ -36,21 +36,23 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'products.update']);
         Permission::create(['name' => 'products.delete']);
         Permission::create(['name' => 'orders.all']);
-        Permission::create(['name' => 'orders.user']);
+        Permission::create(['name' => 'orders.all.user']);
         Permission::create(['name' => 'orders.show']);
         Permission::create(['name' => 'orders.store']);
+        Permission::create(['name' => 'orders.store.user']);
         Permission::create(['name' => 'orders.update']);
         Permission::create(['name' => 'orders.delete']);
         Permission::create(['name' => 'factures.all']);
-        Permission::create(['name' => 'factures.user']);
+        Permission::create(['name' => 'factures.all.user']);
         Permission::create(['name' => 'factures.show']);
         Permission::create(['name' => 'factures.store']);
         Permission::create(['name' => 'factures.update']);
         Permission::create(['name' => 'factures.delete']);
         Permission::create(['name' => 'opportunities.all']);
-        Permission::create(['name' => 'opportunities.user']);
+        Permission::create(['name' => 'opportunities.all.user']);
         Permission::create(['name' => 'opportunities.show']);
         Permission::create(['name' => 'opportunities.store']);
+        Permission::create(['name' => 'opportunities.store.user']);
         Permission::create(['name' => 'opportunities.update']);
         Permission::create(['name' => 'opportunities.delete']);
         Permission::create(['name' => 'categories.all']);

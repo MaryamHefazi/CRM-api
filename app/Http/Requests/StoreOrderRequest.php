@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreOrderRequest extends FormRequest
 {
@@ -22,9 +24,16 @@ class StoreOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'products'=>'required',
-           'description' => 'sometimes',
-
+            'products' => 'required|array',
+            // 'products.*' => Rule::in(Product::pluck('id')),
+            'products.*' => Rule::forEach(function(string|null $value,string $art){
+                return[
+                    Rule::exists(Product::class,'id')->whereNull('deleted_at')
+                ];
+            }),
+            'description' => 'sometimes',
         ];
     }
+
+
 }

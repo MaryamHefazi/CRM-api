@@ -40,7 +40,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //Users routes
 
-    Route::get('/user' , [UserController::class , 'index'])->middleware('permission:users.all');
+    Route::get('/user' , [UserController::class , 'index'])->middleware('permission:users.all|users.all.user');
     Route::post('/user' , [UserController::class , 'store'])->middleware('permission:users.store');
     Route::get('/user/{user}' , [UserController::class , 'show'])->middleware('permission:users.show');
     Route::patch('/user/{user}' , [UserController::class , 'update'])->middleware('permission:users.update');
@@ -58,7 +58,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //Factures routes
 
-    Route::get('/facture' , [FactureController::class , 'index'])->middleware('permission:factures.all|factures.user');
+    Route::get('/facture' , [FactureController::class , 'index'])->middleware('permission:factures.all|factures.all.user');
     Route::post('/facture' , [FactureController::class , 'store'])->middleware('permission:factures.store');;
     Route::get('/facture/{facture}' , [FactureController::class , 'show'])->middleware('permission:factures.show');;
     Route::patch('/facture/{facture}' , [FactureController::class , 'update'])->middleware('permission:factures.update');;
@@ -69,8 +69,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //Opportunities routes
 
-    Route::get('/opportunity' , [OpportunityController::class , 'index'])->middleware('permission:opportunities.all|opportunities.user');
-    Route::post('/opportunity' , [OpportunityController::class , 'store'])->middleware('permission:opportunities.store');
+    Route::get('/opportunity' , [OpportunityController::class , 'index'])->middleware('permission:opportunities.all|opportunities.all.user');
+    Route::post('/opportunity' , [OpportunityController::class , 'store'])->middleware('permission:opportunities.store|opportunity.store.user');
     Route::get('/opportunity/{opportunity}' , [OpportunityController::class , 'show'])->middleware('permission:opportunities.show');
     Route::patch('/opportunity/{opportunity}' , [OpportunityController::class , 'update'])->middleware('permission:opportunities.update');
     Route::delete('/opportunity/{opportunity}' , [OpportunityController::class , 'destroy'])->middleware('permission:opportunities.delete');
@@ -80,8 +80,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //Order routes
 
-    Route::get('/order' , [OrderController::class , 'index'])->middleware('permission:orders.all|orders.user');
-    Route::post('/order' , [OrderController::class , 'store'])->middleware('permission:orders.store');
+    Route::get('/order' , [OrderController::class , 'index'])->middleware('permission:orders.all|orders.all.user');
+    Route::post('/order' , [OrderController::class , 'store'])->middleware('permission:orders.store|orders.store.user');
     Route::get('/order/{order}' , [OrderController::class , 'show'])->middleware('permission:orders.show');
     Route::patch('/order/{order}' , [OrderController::class , 'update'])->middleware('permission:orders.update');
     Route::delete('/order/{order}' , [OrderController::class , 'destroy'])->middleware('permission:orders.delete');

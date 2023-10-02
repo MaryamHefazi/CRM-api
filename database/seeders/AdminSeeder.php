@@ -38,7 +38,7 @@ class AdminSeeder extends Seeder
         ]);
 
         $role2 = Role::findById(8);
-        $permissions = ['users.user', 'products.all', 'products.show', 'orders.user', 'factures.user', 'opportunities.user', 'categories.all', 'categories.show']; 
+        $permissions = ['users.all.user', 'products.all', 'products.show', 'orders.all.user', 'orders.store.user' , 'factures.all.user', 'opportunities.all.user', 'opportunities.store.user' ,'categories.all', 'categories.show']; 
         $role2->givePermissionTo($permissions);
         $user->assignRole($role2);
 

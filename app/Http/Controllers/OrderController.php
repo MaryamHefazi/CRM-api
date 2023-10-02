@@ -18,16 +18,14 @@ class OrderController extends Controller
     
     public function index()
     {
-        // $user = auth()->user();
-        // dd($user);
+        $user = auth()->user();
 
-        // if ($user->hasPermissionTo('orers.all')){
-        // $orders = Order::all(); }
+        if ($user->hasPermissionTo('orders.all')){
+        $orders = Order::all(); }
 
-        // if ($user->hasPermissionTo('orers.user')){
-        // $orders = auth()->user()->orders; }
+        elseif ($user->hasPermissionTo('orders.all.user')){
+        $orders = auth()->user()->orders; }
 
-        $orders = Order::all();
         return response()->json([
             'orders' => $orders,
             'status' => 'success'

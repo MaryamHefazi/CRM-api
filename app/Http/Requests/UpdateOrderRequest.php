@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateOrderRequest extends FormRequest
 {
@@ -24,6 +25,11 @@ class UpdateOrderRequest extends FormRequest
         return [
             'user_id' => 'sometimes',
             'products' => 'sometimes',
+            'products.*' => Rule::forEach(function(string|null $value,string $art){
+                return[
+                    Rule::exists(Product::class,'id')->whereNull('deleted_at')
+                ];
+            }),
             'description' => 'sometimes',
         ];
     }
