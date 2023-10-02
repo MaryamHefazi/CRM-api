@@ -10,7 +10,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class Order extends Model
 {
-    use HasFactory , SoftDeletes ,  HasRoles , HasPermissions;
+    use HasFactory , SoftDeletes , HasRoles , HasPermissions;
 
     protected $fillable = 
     [

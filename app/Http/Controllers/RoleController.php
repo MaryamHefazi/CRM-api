@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AssignRoleRequest;
+use App\Http\Requests\StoreRoleRequest;
+use App\Http\Requests\UpdateRoleRequest;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -25,7 +28,7 @@ class RoleController extends Controller
     }
 
     
-    public function create(Request $request)
+    public function create(AssignRoleRequest $request)
     {
         $role = Role::findById($request->role_id);
 
@@ -47,12 +50,8 @@ class RoleController extends Controller
 
     
 
-    public function store(Request $request)
+    public function store(StoreRoleRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-        ]);
-
         $role = Role::create($request->toArray());
         return Response()->json([
             'role' => $role,
@@ -79,12 +78,8 @@ class RoleController extends Controller
     }
 
     
-    public function update(Request $request, string $id)
+    public function update(UpdateRoleRequest $request, string $id)
     {
-        $request->validate([
-            'name' => 'sometimes',
-        ]);
-
         $role = Role::findById($id);
 
         if (!$role){

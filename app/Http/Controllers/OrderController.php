@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreOrderRequest;
+use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
-use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 
 class OrderController extends Controller
@@ -17,16 +18,16 @@ class OrderController extends Controller
     
     public function index()
     {
-       $user = auth()->user()->permissions;
-       dd($user);
+        // $user = auth()->user();
+        // dd($user);
 
-        if (auth()->user()->hasPermissionTo('orers.all')){
-        $orders = Order::all(); }
+        // if ($user->hasPermissionTo('orers.all')){
+        // $orders = Order::all(); }
 
-        if (auth()->user()->hasPermissionTo('orers.user')){
-        $orders = auth()->user()->orders; }
+        // if ($user->hasPermissionTo('orers.user')){
+        // $orders = auth()->user()->orders; }
 
-
+        $orders = Order::all();
         return response()->json([
             'orders' => $orders,
             'status' => 'success'
@@ -35,13 +36,8 @@ class OrderController extends Controller
 
     
 
-    public function store(Request $request)
+    public function store(StoreOrderRequest $request)
     {
-        $request->validate([
-           'products'=>'required',
-           'description' => 'sometimes',
-        ]);
-
         $order = Order::create([
             'user_id'=>$request->user()->id,
             'description' => $request->description
@@ -85,14 +81,8 @@ class OrderController extends Controller
 
     
 
-    public function update(Request $request, string $id)
+    public function update(UpdateOrderRequest $request, string $id)
     {
-        $request->validate([
-            'user_id' => 'sometimes',
-            'products'=>'sometimes',
-            'description' => 'sometimes',
-         ]);
-
          $order = Order::find($id);
 
          if (!$order) {

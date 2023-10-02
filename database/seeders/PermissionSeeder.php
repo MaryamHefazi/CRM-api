@@ -17,11 +17,11 @@ class PermissionSeeder extends Seeder
 
         Permission::create(['name'=>'users.*']);
         Permission::create(['name'=>'products.*']);
-        Permission::create(['name'=>'order.*']);
+        Permission::create(['name'=>'orders.*']);
         Permission::create(['name'=>'factures.*']);
         Permission::create(['name'=>'opportunities.*']);
         Permission::create(['name'=>'categories.*']);
-        Permission::create(['name' => 'role.*']);
+        Permission::create(['name' => 'roles.*']);
 
 
         Permission::create(['name' => 'users.all']);
@@ -58,11 +58,11 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'categories.store']);
         Permission::create(['name' => 'categories.update']);
         Permission::create(['name' => 'categories.delete']);
-        Permission::create(['name' => 'role.all']);
-        Permission::create(['name' => 'role.store']);
-        Permission::create(['name' => 'role.show']);
-        Permission::create(['name' => 'role.update']);
-        Permission::create(['name' => 'role.delete']);
+        Permission::create(['name' => 'roles.all']);
+        Permission::create(['name' => 'roles.store']);
+        Permission::create(['name' => 'roles.show']);
+        Permission::create(['name' => 'roles.update']);
+        Permission::create(['name' => 'roles.delete']);
 
     }
 }

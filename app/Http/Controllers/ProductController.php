@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -24,16 +26,8 @@ class ProductController extends Controller
     }
 
     
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        $request->validate([
-            'productName'=>'required',
-            'categories'=>'required',
-            'number'=>'required|numeric',
-            'price'=>'required|numeric',
-            'color'=>'required',
-        ]);
-
         $porduct = Product::create($request->toArray());
 
         $categories = $request->categories;
@@ -75,16 +69,8 @@ class ProductController extends Controller
    
 
     
-    public function update(Request $request, string $id)
+    public function update(UpdateProductRequest $request, string $id)
     {
-        $request->validate([
-            'productName'=>'sometimes',
-            'categories'=>'sometimes',
-            'number'=>'sometimes|numeric',
-            'price'=>'sometimes|numeric',
-            'color'=>'sometimes'
-        ]);
-
         $porduct = Product::find($id);
 
         if (!$porduct) {

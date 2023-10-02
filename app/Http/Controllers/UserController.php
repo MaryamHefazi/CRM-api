@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Mail\Email;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
-use Spatie\Permission\Models\Role;
+// use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -20,14 +24,8 @@ class UserController extends Controller
 
 
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-       $request->validate([
-           'name' => 'required',
-           'email' => 'required',
-           'password' => 'required',
-       ]);
-
        $user = User::create($request->toArray());
        
        $user->assignRole('default');
@@ -41,13 +39,8 @@ class UserController extends Controller
 
 
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $request->validate([
-            'email' => 'required',
-            'password' => 'required',
-        ]);
-
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
@@ -93,16 +86,8 @@ class UserController extends Controller
     
 
     
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'role_id' => 'required',
-
-        ]);
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -138,13 +123,8 @@ class UserController extends Controller
 
     
 
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, string $id)
     {
-        $request->validate([
-            'name'=>'sometimes|max:50',
-            'email'=>'sometimes|email',
-        ]);
-
         $user = User::find($id);
 
         if ($user){

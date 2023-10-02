@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreOpportunityRequest;
+use App\Http\Requests\UpdateOpportunityRequest;
 use App\Models\Opportunity;
-use App\Models\Order;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
-use League\CommonMark\Node\Query\OrExpr;
 
 class OpportunityController extends Controller
 {
@@ -27,19 +28,9 @@ class OpportunityController extends Controller
 
     
    
-    public function store(Request $request)
+    public function store(StoreOpportunityRequest $request)
     {
-        $request->validate([
-            'products' => 'required',
-            'number' => 'required|numeric',
-            'color' => 'required',
-            'price' => 'required|numeric',
-            'total_price' => 'required|numeric',
-            'status' => 'required'
-        ]);
-        
         $opportunity = Opportunity::create([
-        
             'user_id' => $request->user()->id ,
             'number' => $request->number ,
             'color' => $request->color ,
@@ -86,18 +77,8 @@ class OpportunityController extends Controller
 
     
 
-    public function update(Request $request, string $id)
+    public function update(UpdateOpportunityRequest $request, string $id)
     {
-        $request->validate([
-            'user_id' => 'sometimes',
-            'products' => 'sometimes',
-            'number' => 'sometimes|numeric',
-            'color' => 'sometimes',
-            'price' => 'sometimes|numeric',
-            'total_price' => 'sometimes|numeric',
-            'status' => 'sometimes'
-        ]);
-
         $opportunity = Opportunity::find($id);
 
         if (!$opportunity) {
