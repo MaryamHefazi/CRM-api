@@ -18,12 +18,10 @@ return new class extends Migration
             $table->string('number');
             $table->string('color');
             $table->string('price');
-            $table->string('total_price');
             $table->string('description')->nullable();
             $table->string('status');
             // $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->softDeletes();
-
             $table->timestamps();
         });
     }

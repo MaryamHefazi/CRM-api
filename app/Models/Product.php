@@ -12,7 +12,7 @@ class Product extends Model
 
     protected $fillable = 
     [
-        'productName', 'number', 'color', 'price', 'productImage'
+        'productName', 'number', 'color', 'price', 'productImage' , 'addedBy'
     ];
 
     public function categories()

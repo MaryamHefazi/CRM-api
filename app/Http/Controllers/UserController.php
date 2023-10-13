@@ -2,17 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
+
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Jobs\SendEmailJob;
-use App\Mail\Email;
-use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Validation\ValidationException;
+
 // use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -24,61 +18,17 @@ class UserController extends Controller
     }
 
 
-
-    public function register(RegisterRequest $request)
-    {
-       $user = User::create($request->toArray());
-       
-       $user->assignRole('default');
-
-       return response()->json([
-            'user' => $user,
-            'status' => 'create successfully',
-       ] , 201);
-
-    }
-
-
-
-    public function login(LoginRequest $request)
-    {
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => 'the provided credentials invalid... try again!'
-            ]);
-            return response()->json([
-                'status' => 'Unprocessable Content',
-            ] , 422);
-        }
-
-        $token = $user->createToken('api_token')->plainTextToken;
-
-        return response()->json([
-            'token' => $token,
-            'status' => 'success',
-            'permissions' => $user->getAllPermissions()->pluck('name'),
-        ] , 200);
-    }
-
-
-
-    public function logout(Request $request)
-    {
-        $request->user()->tokens()->delete();
-        return response()->json([
-            'message' => 'logout out successfully',
-            'status' => 'success'
-        ] , 200);
- 
-    }
-
-
-
     public function index()
     {
-        $users = User::all();
+        $user = auth()->user();
+        
+        if($user->hasPermissionTo('users.all')){
+            $users = User::all();
+        }
+        elseif($user->hasPermissionTo('users.all.user')){
+            $users = User::where('id' , $user->id)->first();
+        }
+      
         return response()->json([
             'users' => $users,
             'status' => 'success',
@@ -127,20 +77,25 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, string $id)
     {
-        $user = User::find($id);
+        $userLoggedIn = auth()->user();
 
-        if ($user){
-            $user->update($request->toArray()); 
-            return response()->json([
-                'user' => $user,
-                'status' => 'success'
-            ] , 200);
+        if($userLoggedIn->hasPermissionTo('users.update') || ($userLoggedIn->hasPermissionTo('users.update.user') && $userLoggedIn->id == $id) ){
+
+            $user = User::find($id);
+            if ($user){
+                $user->update($request->toArray()); 
+                return response()->json([
+                    'user' => $user,
+                    'status' => 'success'
+                ] , 200);
+            }
         }
-
         return response()->json([
-            'message' => 'User not found',
-            'status' => 'Not Found'
+            'message' => 'User not found or you are not allowed to update',
+            'status' => 'Failed updating'
         ] , 404);
+    
+        
 
     }
 
@@ -148,30 +103,24 @@ class UserController extends Controller
 
     public function destroy(string $id)
     {
-        $user = User::find($id);
+        $userLoggedIn = auth()->user();
 
-        if ($user){
-            return response()->json([
-                'message' => 'User deleted successfully',
-                'status' => 'success'
-            ] , 200);
+        if($userLoggedIn->hasPermissionTo('users.update') || ($userLoggedIn->hasPermissionTo('users.update.user') && $userLoggedIn->id == $id)){
+
+            $user = User::find($id);
+
+            if ($user){
+                $user->delete();
+                return response()->json([
+                    'message' => 'User deleted successfully',
+                    'status' => 'success'
+                ] , 200);
+            }
         }
-
         return response()->json([
-            'message' => 'User not found',
-            'status' => 'Not Found'
+            'message' => 'User not found or you are not allowed to delete',
+            'status' => 'Failed deleting'
         ] , 404);
-    }
-
-
-
-    public function sendEmail()
-    {
-        SendEmailJob::dispatch();
-        return response()->json([
-            'message' => 'email sent successfully',
-            'status' => 'success'
-        ] , 200);
     }
 }
 

@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('factures', function (Blueprint $table) {
             $table->id();
+            $table->string('order_id');
+            $table->string('price');
+            $table->string('paymentType');
+            $table->string('status');
             $table->softDeletes();
             $table->timestamps();
         });

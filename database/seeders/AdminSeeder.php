@@ -20,11 +20,13 @@ class AdminSeeder extends Seeder
             'password'=>Hash::make('1234'),
         ]);
 
+        $admin->assignRole('admin');
+
         #1 : assign permissions to role and create a new user
-        $role1 = Role::findById(1);
-        $permissions = [1,2,3,4,5,6,7]; 
-        $role1->givePermissionTo($permissions);
-        $admin->assignRole($role1);
+        // $role1 = Role::findByName('admin');
+        // $permissions = [1,2,3,4,5,6,7]; 
+        // $role1->givePermissionTo($permissions);
+        // $admin->assignRole($role1);
 
         // #2 : assign permissions to user
         // $permissions = [1,2,3,4,5,6,7];
@@ -37,10 +39,7 @@ class AdminSeeder extends Seeder
             'password'=>Hash::make('1234'),
         ]);
 
-        $role2 = Role::findById(8);
-        $permissions = ['users.all.user', 'products.all', 'products.show', 'orders.all.user', 'orders.store.user' , 'factures.all.user', 'opportunities.all.user', 'opportunities.store.user' ,'categories.all', 'categories.show']; 
-        $role2->givePermissionTo($permissions);
-        $user->assignRole($role2);
+        $user->assignRole('customer');
 
     }
 }

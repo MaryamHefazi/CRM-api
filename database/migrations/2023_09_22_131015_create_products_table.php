@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('productName');
             $table->integer('number');
             $table->integer('price');
-            $table->string('color');
+            $table->string('color')->nullable();
+            $table->integer('addedBy');
             $table->text('description')->nullable();
             $table->softDeletes();
 

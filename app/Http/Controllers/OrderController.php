@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
+use App\Models\Product;
 use Spatie\Permission\Models\Permission;
 
 class OrderController extends Controller
@@ -36,18 +37,27 @@ class OrderController extends Controller
 
     public function store(StoreOrderRequest $request)
     {
+        $userLoggedIn = auth()->user();
+
+        if($userLoggedIn->hasPermissionTo('orders.store')){
+            $user_id = $request->user_id;
+        }
+        elseif($userLoggedIn->hasPermissionTo('orders.store.user')){
+            $user_id = $request->user()->id;
+        }
+
         $order = Order::create([
-            'user_id'=>$request->user()->id,
+            'user_id'=>$user_id,
             'description' => $request->description
         ]);
 
         $products = $request->products;
-
         $productSync = [];
-
         foreach($products as $product)
         {
             $productSync[] = $product;
+            $product = Product::find($product);
+            $product->number-=1;
         }
 
         $order->products()->attach($productSync);

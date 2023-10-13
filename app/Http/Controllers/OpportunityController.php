@@ -5,24 +5,25 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreOpportunityRequest;
 use App\Http\Requests\UpdateOpportunityRequest;
 use App\Models\Opportunity;
+use Spatie\Permission\Models\Permission;
 
 class OpportunityController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except([]);
+        $this->middleware('auth:sanctum');
     }
 
     
     public function index()
     {
         $user = auth()->user();
-
-        if ($user->hasPermissionTo('oppertiunities.all')){
+    
+        if ($user->hasPermissionTo('opportunities.all')){
         $opportunities = Opportunity::all(); }
 
-        elseif ($user->hasPermissionTo('oppertiunities.all.user')){
+        elseif ($user->hasPermissionTo('opportunities.all.user')){
         $opportunities = auth()->user()->Opportunities; }
 
         return response()->json([
@@ -35,8 +36,17 @@ class OpportunityController extends Controller
    
     public function store(StoreOpportunityRequest $request)
     {
+        $userLoggedIn = auth()->user();
+
+        if($userLoggedIn->hasPermissionTo('opportunities.store')){
+            $user_id = $request->user_id;
+        }
+        elseif($userLoggedIn->hasPermissionTo('opportunities.store.user')){
+            $user_id = $request->user()->id;
+        }
+
         $opportunity = Opportunity::create([
-            'user_id' => $request->user()->id ,
+            'user_id' => $user_id ,
             'number' => $request->number ,
             'color' => $request->color ,
             'price' => $request->price ,

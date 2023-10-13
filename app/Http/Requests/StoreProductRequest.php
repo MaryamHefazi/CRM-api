@@ -33,7 +33,7 @@ class StoreProductRequest extends FormRequest
             }),
             'number'=>'required|numeric',
             'price'=>'required|numeric',
-            'color'=>'required',
+            'color'=>'sometimes',
         ];
     }
 }

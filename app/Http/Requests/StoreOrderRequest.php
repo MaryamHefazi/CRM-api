@@ -26,7 +26,7 @@ class StoreOrderRequest extends FormRequest
         return [
             'products' => 'required|array',
             // 'products.*' => Rule::in(Product::pluck('id')),
-            'products.*' => Rule::forEach(function(string|null $value,string $art){
+            'products.*' => Rule::forEach(function(string|null $value , string $art){
                 return[
                     Rule::exists(Product::class,'id')->whereNull('deleted_at')
                 ];
