@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Mail\Email;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -10,8 +9,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\RegisterMail;
 
-class SendEmailJob implements ShouldQueue
+class RegisterJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -28,7 +28,6 @@ class SendEmailJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $user = auth()->user();
-        Mail::to($user->email)->send(new Email());
+        Mail::to('selena@gmail.com')->send(new RegisterMail());
     }
 }

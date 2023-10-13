@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
 use App\Models\Product;
 use Spatie\Permission\Models\Permission;
+use App\jobs\StoreOrderJob;
 
 class OrderController extends Controller
 {
@@ -61,7 +62,7 @@ class OrderController extends Controller
         }
 
         $order->products()->attach($productSync);
-
+        StoreOrderJob::dispatch();
         return response()->json([
             'order' => $order ,
             'status' => 'Created Successfully'

@@ -7,7 +7,8 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Hash;
-use App\Jobs\SendEmailJob;
+use App\Jobs\RegisterJob;
+use App\Jobs\LoginJob;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -24,6 +25,8 @@ class AuthController extends Controller
        $user = User::create($request->toArray());
        
        $user->assignRole('default');
+
+       RegisterJob::dispatch();
 
        return response()->json([
             'user' => $user,
@@ -45,11 +48,11 @@ class AuthController extends Controller
         }
 
         $token = $user->createToken('api_token')->plainTextToken;
-
+        LoginJob::dispatch();
         return response()->json([
             'token' => $token,
-            'status' => 'success',
             'permissions' => $user->getAllPermissions()->pluck('name'),
+            'status' => 'success',
         ] , 200);
     }
 
@@ -64,14 +67,4 @@ class AuthController extends Controller
         ] , 200);
  
     }
-
-    public function sendEmail()
-    {
-       SendEmailJob::dispatch();
-        return response()->json([
-            'message' => 'email sent successfully',
-            'status' => 'success'
-        ] , 200);
-    }
-
 }

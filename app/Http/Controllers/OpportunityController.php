@@ -6,6 +6,7 @@ use App\Http\Requests\StoreOpportunityRequest;
 use App\Http\Requests\UpdateOpportunityRequest;
 use App\Models\Opportunity;
 use Spatie\Permission\Models\Permission;
+use App\jobs\StoreOpportunityJob;
 
 class OpportunityController extends Controller
 {
@@ -64,7 +65,7 @@ class OpportunityController extends Controller
         }
 
         $opportunity->products()->attach($productSync);
-
+        StoreOpportunityJob::dispatch();
         return response()->json([
             'opportunity' => $opportunity ,
             'status' => 'create successfully',

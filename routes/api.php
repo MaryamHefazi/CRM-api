@@ -7,7 +7,7 @@ use App\Http\Controllers\FactureController;
 use App\Http\Controllers\OpportunityController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controller\AuthController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
