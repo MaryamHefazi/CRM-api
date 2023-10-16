@@ -23,7 +23,8 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name'=>'sometimes|string|max:50',
-            'email'=>'sometimes|email',
+            'email'=>'sometimes',
+            'role_neme'=>'sometimes',
         ];
     }
 }

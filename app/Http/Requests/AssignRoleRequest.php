@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Spatie\Permission\Models\Permission;
 
 class AssignRoleRequest extends FormRequest
 {
@@ -22,8 +24,13 @@ class AssignRoleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'role_id' => 'required',
+            'user_id' => 'required',
             'permissions_id' => 'required|array',
+            'permissions_id.*' => Rule::forEach(function(string|null $value , string $art){
+                return[
+                    Rule::exists(Permission::class,'id')
+                ];
+            }),
         ];
     }
 }

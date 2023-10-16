@@ -65,7 +65,9 @@ class OpportunityController extends Controller
         }
 
         $opportunity->products()->attach($productSync);
-        StoreOpportunityJob::dispatch();
+
+        StoreOpportunityJob::dispatch(auth()->user()->email);
+        
         return response()->json([
             'opportunity' => $opportunity ,
             'status' => 'create successfully',

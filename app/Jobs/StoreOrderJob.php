@@ -15,12 +15,11 @@ class StoreOrderJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
-     */
-    public function __construct()
+    protected $email;
+
+    public function __construct($email)
     {
-        //
+        $this->email = $email;
     }
 
     /**
@@ -28,7 +27,6 @@ class StoreOrderJob implements ShouldQueue
      */
     public function handle(): void
     { 
-        $user = auth()->user();
-        Mail::to($user->email)->send(new StoreOrderMail());
+        Mail::to($this->email)->send(new StoreOrderMail());
     }
 }

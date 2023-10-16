@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Spatie\Permission\Models\Permission;
 
 class StoreRoleRequest extends FormRequest
 {
@@ -23,6 +25,13 @@ class StoreRoleRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'permissions_id' => 'required|array',
+            'permissions_id.*' => Rule::forEach(function(string|null $value , string $art){
+                return[
+                    Rule::exists(Permission::class,'id')
+                ];
+            }),
+            'user_id'=>'sometimes'
         ];
     }
 }

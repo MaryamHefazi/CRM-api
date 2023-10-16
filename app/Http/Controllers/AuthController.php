@@ -26,7 +26,7 @@ class AuthController extends Controller
        
        $user->assignRole('default');
 
-       RegisterJob::dispatch();
+       RegisterJob::dispatch($request->email);
 
        return response()->json([
             'user' => $user,
@@ -46,9 +46,10 @@ class AuthController extends Controller
                 'email' => 'the provided credentials invalid... try again!'
             ]);
         }
-
         $token = $user->createToken('api_token')->plainTextToken;
-        LoginJob::dispatch();
+
+        LoginJob::dispatch($request->email);
+        
         return response()->json([
             'token' => $token,
             'permissions' => $user->getAllPermissions()->pluck('name'),

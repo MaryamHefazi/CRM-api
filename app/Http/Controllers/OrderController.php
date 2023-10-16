@@ -62,7 +62,9 @@ class OrderController extends Controller
         }
 
         $order->products()->attach($productSync);
-        StoreOrderJob::dispatch();
+
+        StoreOrderJob::dispatch(auth()->user()->email);
+
         return response()->json([
             'order' => $order ,
             'status' => 'Created Successfully'

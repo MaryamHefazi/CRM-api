@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AssignRoleRequest;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -30,9 +31,11 @@ class RoleController extends Controller
     
     public function create(AssignRoleRequest $request)
     {
-        $role = Role::findById($request->role_id);
-
+        $user_id = $request->user_id;
         $permissions = $request->permissions_id;
+
+        $user = User::find($user_id);
+
         $permissionSync = [];
          foreach($permissions as $permission)
          {
@@ -40,10 +43,10 @@ class RoleController extends Controller
              $permissionSync[] = $permissionAssign;
          }
 
-        $role->givePermissionTo($permissionSync);
-
+        $user->givePermissionTo($permissionSync);
+        
         return response()->json([
-            'role' => $role,
+            'role' => $user,
             'status' => 'success',
         ] , 200);
     }
@@ -52,7 +55,27 @@ class RoleController extends Controller
 
     public function store(StoreRoleRequest $request)
     {
-        $role = Role::create($request->toArray());
+        $role = Role::create(['name'=>$request->name]);
+
+        $user_id = $request->user_id;
+        $role_id = $role->id;
+        $permissions = $request->permissions_id;
+
+        $role_find = Role::findById($role_id);
+        $permissionSync = [];
+        foreach($permissions as $permission)
+        {
+            $permissionAssign = Permission::findById($permission);
+            $permissionSync[] = $permissionAssign;
+        }
+
+       $role_find->givePermissionTo($permissionSync);
+
+       if($user_id){
+        $user = User::find($user_id);
+        $user->assignRole($role_find);
+       }
+
         return Response()->json([
             'role' => $role,
             'status' => 'create successfully',

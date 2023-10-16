@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Http\Requests\RegisterRequest;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -15,12 +16,10 @@ class RegisterJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
-     */
-    public function __construct()
+    protected $email;
+    public function __construct($email)
     {
-        //
+        $this->email = $email;
     }
 
     /**
@@ -28,6 +27,6 @@ class RegisterJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Mail::to('selena@gmail.com')->send(new RegisterMail());
+        Mail::to($this->email)->send(new RegisterMail());
     }
 }

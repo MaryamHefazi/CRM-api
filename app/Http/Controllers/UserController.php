@@ -7,7 +7,6 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 
-// use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -36,8 +35,6 @@ class UserController extends Controller
     }
 
     
-
-    
     public function store(StoreUserRequest $request)
     {
         $user = User::create([
@@ -46,7 +43,7 @@ class UserController extends Controller
             'password' => $request->password
         ]);
         
-        $user->assignRole($request->role_id);
+        $user->assignRole($request->role_name);
 
         return response()->json([
            'user' => $user,
@@ -56,9 +53,9 @@ class UserController extends Controller
 
 
 
-    public function show()
+    public function show($id)
     {
-        $user = auth()->user();
+        $user = User::find($id);
 
         if (!$user) {
              return response()->json([
@@ -94,8 +91,6 @@ class UserController extends Controller
             'message' => 'User not found or you are not allowed to update',
             'status' => 'Failed updating'
         ] , 404);
-    
-        
 
     }
 
