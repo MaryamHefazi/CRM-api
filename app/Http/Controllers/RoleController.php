@@ -46,7 +46,8 @@ class RoleController extends Controller
         $user->givePermissionTo($permissionSync);
         
         return response()->json([
-            'role' => $user,
+            'user' => $user,
+            'permissins' => $permissionSync,
             'status' => 'success',
         ] , 200);
     }

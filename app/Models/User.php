@@ -56,4 +56,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Opportunity::class);
     }
+
+    public function factures()
+    {
+        return $this->hasMany(Facture::class);
+    }
 }
+
+

@@ -26,7 +26,7 @@ class StoreOpportunityRequest extends FormRequest
     {
         return [
             'products' => 'required',
-            'products.*' => Rule::forEach(function(string|null $value,string $art){
+            'products.*' => Rule::forEach(function(string|null $value , string $attribute){
                 return[
                     Rule::exists(Product::class,'id')->whereNull('deleted_at')
                 ];

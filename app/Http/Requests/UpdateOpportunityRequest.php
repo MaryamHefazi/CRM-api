@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -27,7 +28,7 @@ class UpdateOpportunityRequest extends FormRequest
             'products' => 'sometimes',
             'products.*' => Rule::forEach(function(string|null $value,string $art){
                 return[
-                    Rule::exists(Products::class,'id')->whereNull('deleted_at')
+                    Rule::exists(Product::class,'id')->whereNull('deleted_at')
                 ];
             }),
             'number' => 'sometimes|numeric',

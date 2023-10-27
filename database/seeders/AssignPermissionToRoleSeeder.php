@@ -32,7 +32,7 @@ class AssignPermissionToRoleSeeder extends Seeder
         $role6->givePermissionTo('categories.*'); 
 
         $role7 = Role::findByName('admin.roles');
-        $role7->givePermissionTo('categories.*'); 
+        $role7->givePermissionTo('roles.*'); 
 
         
         $role8 = Role::findByName('admin');

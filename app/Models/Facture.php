@@ -10,8 +10,15 @@ class Facture extends Model
 {
     use HasFactory , SoftDeletes;
 
-    public function users()
+    protected $fillable = ['user_id' , 'order_id' , 'totalPrice' , 'paymentType' , 'status'] ;
+
+    public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function order()
+    {
+        return $this->hasOne(Order::class);
     }
 }

@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class UpdateOrderRequest extends FormRequest
+class CreateFactureRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +22,9 @@ class UpdateOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'sometimes',
-            'products' => 'sometimes',
-            'products.*' => Rule::forEach(function(string|null $value,string $art){
-                return[
-                    Rule::exists(Product::class,'id')->whereNull('deleted_at')
-                ];
-            }),
-            'description' => 'sometimes',
+            "order_id"=> "required",
+            "paymentType"=> "required",
+            "status"=> "required",
         ];
     }
 }

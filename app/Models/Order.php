@@ -27,4 +27,9 @@ class Order extends Model
     {
         return $this->belongsToMany(Product::class);
     }
+
+    public function facture()
+    {
+        return $this->hasOne(Facture::class);
+    }
 }

@@ -62,10 +62,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //Factures routes
 
     Route::get('/facture' , [FactureController::class , 'index'])->middleware('permission:factures.all|factures.all.user');
-    Route::post('/facture' , [FactureController::class , 'store'])->middleware('permission:factures.store');;
-    Route::get('/facture/{facture}' , [FactureController::class , 'show'])->middleware('permission:factures.show');;
-    Route::put('/facture/{facture}' , [FactureController::class , 'update'])->middleware('permission:factures.update');;
-    Route::delete('/facture/{facture}' , [FactureController::class , 'destroy'])->middleware('permission:factures.delete');;
+    Route::post('/facture' , [FactureController::class , 'store'])->middleware('permission:factures.store');
+    Route::post('/facture/{id}' , [FactureController::class , 'create'])->middleware('permission:factures.store');
+    Route::get('/facture/{facture}' , [FactureController::class , 'show'])->middleware('permission:factures.show');
+    Route::put('/facture/{facture}' , [FactureController::class , 'update'])->middleware('permission:factures.update');
+    Route::delete('/facture/{facture}' , [FactureController::class , 'destroy'])->middleware('permission:factures.delete');
 
 
 /* ---------------------------------------------------------------------------------------------------------------------------------------------*/

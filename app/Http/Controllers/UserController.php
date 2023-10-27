@@ -100,7 +100,7 @@ class UserController extends Controller
     {
         $userLoggedIn = auth()->user();
 
-        if($userLoggedIn->hasPermissionTo('users.update') || ($userLoggedIn->hasPermissionTo('users.update.user') && $userLoggedIn->id == $id)){
+        if($userLoggedIn->hasPermissionTo('users.delete') || ($userLoggedIn->hasPermissionTo('users.delete.user') && $userLoggedIn->id == $id)){
 
             $user = User::find($id);
 
