@@ -8,6 +8,8 @@ use App\Http\Controllers\OpportunityController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\ShopController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -90,6 +92,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::put('/order/{order}' , [OrderController::class , 'update'])->middleware('permission:orders.update');
     Route::delete('/order/{order}' , [OrderController::class , 'destroy'])->middleware('permission:orders.delete');
 
+    //MAP
+    Route::post('/cost', [OrderController::class , 'cost']);
+
 
 /* ---------------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -116,5 +121,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 /* ---------------------------------------------------------------------------------------------------------------------------------------------*/
 
+//Location routs
+   Route::post('/location/user', [LocationController::class ,'store']);
 
 
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+
+//Shop routes
+   Route::get('/shop', [ShopController::class ,'index']);
+   Route::post('/shop', [ShopController::class , 'store']);
+   Route::get('/shop/{shop}', [ShopController::class ,'show']);
+   Route::put('/shop/{shop}', [ShopController::class , 'update']);
+   Route::delete('/shop/{shop}', [ShopController::class , 'destroy']);
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/

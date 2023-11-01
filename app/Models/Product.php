@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
@@ -31,4 +32,12 @@ class Product extends Model
     {
         return $this->belongsToMany(Opportunity::class);
     }
+
+    public function shops()
+    {
+        return $this->belongsToMany(Shop::class);
+    }
+
+
+
 }

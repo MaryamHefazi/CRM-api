@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Product;
 use Spatie\Permission\Models\Permission;
 use App\jobs\StoreOrderJob;
+use GuzzleHttp\Client;
 
 class OrderController extends Controller
 {
@@ -140,5 +141,29 @@ class OrderController extends Controller
             'message' => 'order destroy successfully',
             'status' => 'success'
          ] , 200);
+    }
+
+    public function cost()
+    {
+        $client = new Client();
+        // $apikey = env();
+        $data = $client->post('https://graphhopper.com/api/1/route?key=54df6170-baa2-4f1e-86f4-9f9a90429edf' , [
+            'headers' => [
+                'Content-Type' => 'application/json'
+            ],
+            'json' => [
+                'points' =>[
+                    [11.539421, 48.118477],
+                    [11.559023, 48.12228],
+                ]
+            ]
+        ]);
+
+        // dd($data);
+
+        return response()->json(json_decode($data->getBody()->getContents(), true));
+
+        // $result = json_decode($data->getBody()->getContents());
+        // return response()->json($result->paths[0]->distance);
     }
 }

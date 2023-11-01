@@ -23,9 +23,9 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function products()
+    public function orders()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Order::class);
     }
 
     public function facture()

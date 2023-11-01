@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Jobs\RegisterJob;
 use App\Jobs\LoginJob;
 use App\Models\User;
+use SoapClient;
 
 class AuthController extends Controller
 {
@@ -22,14 +23,24 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
-       $user = User::create($request->toArray());
+       $userR = User::create($request->toArray());
        
-       $user->assignRole('default');
+       $userR->assignRole('default');
 
        RegisterJob::dispatch($request->email);
 
+       $client = new SoapClient("http://ippanel.com/class/sms/wsdlservice/server.php?wsdl");
+            $user = "maryamhefazi34"; 
+            $pass = "Mh810304"; 
+            $fromNum = "+983000505"; 
+            $toNum = ["9364707714"]; 
+            $pattern_code = "jq82v3irg5ixduu"; 
+            $input_data = ["name" => $request->name,"username" => $request->email]; 
+
+	        echo $client->sendPatternSms($fromNum,$toNum,$user,$pass,$pattern_code,$input_data);
+
        return response()->json([
-            'user' => $user,
+            'user' => $userR,
             'status' => 'create successfully',
        ] , 201);
 

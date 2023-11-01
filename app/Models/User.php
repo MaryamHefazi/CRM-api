@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -60,6 +61,11 @@ class User extends Authenticatable
     public function factures()
     {
         return $this->hasMany(Facture::class);
+    }
+
+    public function locations(): MorphMany
+    {
+        return $this->morphMany('App\Models\Location', 'locationable');
     }
 }
 
