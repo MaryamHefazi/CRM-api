@@ -16,7 +16,11 @@ return new class extends Migration
             $table->id();
 
             $table->unsignedBigInteger('user_id');
+            $table->string('address');
+            $table->string('sendType');
+            $table->string('vehicleType');
             $table->text('description')->nullable();
+            $table->string('status')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->softDeletes();
 

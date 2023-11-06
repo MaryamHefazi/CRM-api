@@ -19,9 +19,6 @@ return new class extends Migration
             $table->string('postalCode')->nullable();
             $table->string('telephon')->nullable();
             $table->string('phoneNumber');
-            $table->string('address');
-            $table->float('lng');
-            $table->float('lat');
 
             $table->timestamps();
         });

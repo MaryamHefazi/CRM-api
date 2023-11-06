@@ -50,6 +50,9 @@ class OrderController extends Controller
 
         $order = Order::create([
             'user_id'=>$user_id,
+            'sendType'=>$request->sendType,
+            'vehicleType'=> $request->vehicleType,
+            'address'=> $request->address,
             'description' => $request->description
         ]);
 
@@ -143,10 +146,10 @@ class OrderController extends Controller
          ] , 200);
     }
 
-    public function cost()
+    public function cost($id)
     {
         $client = new Client();
-        // $apikey = env();
+
         $data = $client->post('https://graphhopper.com/api/1/route?key=54df6170-baa2-4f1e-86f4-9f9a90429edf' , [
             'headers' => [
                 'Content-Type' => 'application/json'
@@ -161,9 +164,21 @@ class OrderController extends Controller
 
         // dd($data);
 
-        return response()->json(json_decode($data->getBody()->getContents(), true));
+        // return response()->json(json_decode($data->getBody()->getContents(), true));
 
-        // $result = json_decode($data->getBody()->getContents());
-        // return response()->json($result->paths[0]->distance);
+        $result = json_decode($data->getBody()->getContents());
+
+        $distance = $result->paths[0]->distance;
+        $distance_KM = $distance/1000;
+
+        $time = $result->paths[0]->time;
+        $time_H = $time/60000;
+        
+        return [
+            'dKM'=> $distance_KM,
+            'd'=> $distance,
+            'time'=> $time,
+            'timeHH'=> $time_H,
+        ];
     }
 }
